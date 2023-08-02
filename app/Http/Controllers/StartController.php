@@ -6,6 +6,6 @@ class StartController
 {
     public function __invoke()
     {
-        return redirect()->route('patient.auth.login');
+        return view('start.index');
     }
 }
