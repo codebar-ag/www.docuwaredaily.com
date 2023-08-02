@@ -1,0 +1,100 @@
+name: production | assets & deploy
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  assets_production:
+    runs-on: ${{ matrix.os }}
+    name: production-assets | ci
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ 8.2 ]
+        node: [ 16 ]
+
+    steps:
+      - name: set timezone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Europe/Zurich"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Setup php env
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, fileinfo, mysql, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+
+      - name: Prepare the environment
+        run: cp .env.ci .env
+
+      # Frontend dependencies
+      - name: Install assets
+        run: cp vite.config.js.example vite.config.js
+
+      # Backend dependencies
+      - name: Apply Nova license
+        run: composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_LICENSE_KEY }}
+      - name: Install Composer dependencies
+        run: composer install -q --no-progress --prefer-dist --no-interaction --no-suggest --optimize-autoloader --no-scripts
+
+      # Set token
+      - name: Set NPM token
+        run: npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+      # Frontend dependencies
+      - name: Install dependencies & build assets
+        run: npm install && npm run build
+
+      # Assets
+      - name: Publish Laravel Nova Assets
+        run: php artisan vendor:publish --tag=nova-assets --ansi --force
+      - name: Publish Laravel Horizon Assets
+        run: php artisan vendor:publish --tag=horizon-assets --force
+
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
+      - name: publish production assets
+        env:
+          APP_ENV: ${{ steps.vars.outputs.short_ref }}
+          AWS_ENDPOINT: ${{ secrets.AWS_PRODUCTION_ENDPOINT }}
+          AWS_URL: ${{ secrets.AWS_PRODUCTION_URL }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_PRODUCTION_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_PRODUCTION_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_PRODUCTION_DEFAULT_REGION }}
+          AWS_BUCKET: ${{ secrets.AWS_PRODUCTION_BUCKET }}
+        run: php artisan lasso:publish --no-git
+
+  deploy:
+    needs: assets_production
+    runs-on: ubuntu-latest
+    name: production | deploy
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: '0'
+      - name: Deploy to staging CI
+        env:
+          ENVOYER_HOOK_CI_PRODUCTION: ${{ secrets.ENVOYER_HOOK_CI_PRODUCTION }}
+        run: curl "$ENVOYER_HOOK_CI_PRODUCTION"?sha=${{ github.sha }}
+      - name: Deploy to staging ML
+        env:
+          ENVOYER_HOOK_ML_PRODUCTION: ${{ secrets.ENVOYER_HOOK_ML_PRODUCTION }}
+        run: curl "$ENVOYER_HOOK_ML_PRODUCTION"?sha=${{ github.sha }}

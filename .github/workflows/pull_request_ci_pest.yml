@@ -1,0 +1,87 @@
+name: Pull Request  | CI | PEST
+
+on: pull_request
+
+jobs:
+  ci_pest:
+    runs-on: ${{ matrix.os }}
+    name: pull-request | ci | pest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ 8.2 ]
+        node: [ 16 ]
+
+    steps:
+      - name: set timezone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Europe/Zurich"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Setup php env
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, fileinfo, mysql, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+
+      - name: Prepare the environment
+        run: cp .env.ci .env
+
+      # Frontend dependencies
+      - name: Install assets
+        run: cp vite.config.js.example vite.config.js
+
+      # Backend Dependencies
+      - name: Apply Nova license
+        run: composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_LICENSE_KEY }}
+      - name: Install Composer dependencies
+        run: composer install -q --no-progress --prefer-dist --no-interaction --no-suggest --optimize-autoloader --no-scripts
+
+      # Set token
+      - name: Set NPM token
+        run: npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+      # Frontend dependencies
+      - name: Install dependencies & build assets
+        run: npm install && npm run build
+
+      # Prepare Backend
+      - name: Create Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE laravel character set UTF8mb4 collate utf8mb4_bin;"
+
+        # Artisan commands
+      - name: Publish Laravel Nova Assets
+        run: php artisan vendor:publish --tag=nova-assets --ansi --force
+      - name: Publish Laravel Horizon Assets
+        run: php artisan vendor:publish --tag=horizon-assets --force
+      - name: Link Storage Migration
+        run: php artisan storage:link
+      - name: Run Migration
+        run: php artisan migrate:fresh
+
+      # Backend tests
+      - name: Execute Pest Tests
+        run: ./vendor/bin/pest --parallel
+
+      # Store logs
+      - name: Store Log Artifacts
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: Store report artifacts
+          path: ./storage/logs
