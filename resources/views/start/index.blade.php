@@ -26,7 +26,7 @@
                     exchange
                     DocuWare-related topics and solve problems together. DocuWare Daily isn't an official DocuWare
                     service.</p>
-                <div class="mt-10 flex items-center gap-x-6">
+                <div class="mt-10 space-y-4 md:space-y-0 md:flex items-center gap-x-6">
                     <a target="_blank" onclick="fathom.trackGoal('V95QRZCC', 0);"
                        href="https://join.slack.com/t/docuware-daily/shared_invite/zt-209q7uwle-00a1SGD~pF~4CBJcJU0CZg"
                        class="flex items-center rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
@@ -36,6 +36,15 @@
                             <path d="M94.12 315.1c0 25.9-21.16 47.06-47.06 47.06S0 341 0 315.1c0-25.9 21.16-47.06 47.06-47.06h47.06v47.06zm23.72 0c0-25.9 21.16-47.06 47.06-47.06s47.06 21.16 47.06 47.06v117.84c0 25.9-21.16 47.06-47.06 47.06s-47.06-21.16-47.06-47.06V315.1zm47.06-188.98c-25.9 0-47.06-21.16-47.06-47.06S139 32 164.9 32s47.06 21.16 47.06 47.06v47.06H164.9zm0 23.72c25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06H47.06C21.16 243.96 0 222.8 0 196.9s21.16-47.06 47.06-47.06H164.9zm188.98 47.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06h-47.06V196.9zm-23.72 0c0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06V79.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06V196.9zM283.1 385.88c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06v-47.06h47.06zm0-23.72c-25.9 0-47.06-21.16-47.06-47.06 0-25.9 21.16-47.06 47.06-47.06h117.84c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06H283.1z"/>
                         </svg>
                         <span class="ml-2">Join Our Slack Channel</span>
+                    </a>
+                    <a target="_blank" onclick="fathom.trackGoal('V95QRZCC', 0);"
+                       href="https://paperflakes.docuware.cloud/DocuWare/Platform/WebClient/Forms/docuware-daily-stackoverflow?orgID=1b23496f-a8cc-4fa4-b8df-de6525d47620"
+                       class="flex items-center rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                        <svg class="h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                            <path d="M290.7 311L95 269.7 86.8 309l195.7 41zm51-87L188.2 95.7l-25.5 30.8 153.5 128.3zm-31.2 39.7L129.2 179l-16.7 36.5L293.7 300zM262 32l-32 24 119.3 160.3 32-24zm20.5 328h-200v39.7h200zm39.7 80H42.7V320h-40v160h359.5V320h-40z"/>
+                        </svg>
+                        <span class="ml-2">Register for StackOverflow</span>
                     </a>
                     <!--<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>-->
                 </div>
@@ -52,7 +61,7 @@
         </div>
     </div>
 
-    <div class="bg-blue-100">
+{{--    <div class="bg-blue-100">
         <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:justify-between lg:px-8">
             <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Ready to support?<br>Check out open
                 challenges</h2>
@@ -63,9 +72,9 @@
                 <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Publish your'own challeng</a>
             </div>
         </div>
-    </div>
+    </div>--}}
 
-    <div class="bg-white py-24 sm:py-32">
+   {{-- <div class="bg-white py-24 sm:py-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-12 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5">
                 <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
@@ -93,9 +102,9 @@
                 </p>
             </div>
         </div>
-    </div>
+    </div>--}}
 
-    <div class="bg-blue-700 py-16 sm:py-24 lg:py-32">
+    {{--<div class="bg-blue-700 py-16 sm:py-24 lg:py-32">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
             <div class="max-w-xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:col-span-7">
                 <h2 class="inline sm:block lg:inline xl:block">Sign up for our newsletter<br>to receive updates about
@@ -118,5 +127,6 @@
                 </p>
             </form>
         </div>
-    </div>
+    </div>--}}
+
 </x-layouts.default>

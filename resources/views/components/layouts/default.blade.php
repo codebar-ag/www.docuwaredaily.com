@@ -46,7 +46,9 @@
 </head>
 <body class="antialiased h-full">
 
+{{--
 @include('components.layouts.partials.header')
+--}}
 
 {{ $slot }}
 
