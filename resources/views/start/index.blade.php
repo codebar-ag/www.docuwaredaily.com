@@ -12,8 +12,8 @@
         </svg>
         <div class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
             <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
-                <img class="h-11" src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-                     alt="DocuWare Daily">
+   {{--             <img class="h-11" src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
+                     alt="DocuWare Daily">--}}
                 <div class="mt-24 sm:mt-32 lg:mt-16">
                     <a target="_blank" href="https://start.docuware.com/" class="inline-flex space-x-6">
                         <span class="rounded-full bg-gray-600/10 px-3 py-1 text-xs font-semibold leading-6 text-gray-600 ring-1 ring-inset ring-gray-600/10">DocuWare Daily isn't an  DocuWare service</span>
