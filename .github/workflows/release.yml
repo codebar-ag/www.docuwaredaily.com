@@ -20,4 +20,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
           WITH_V: true
           RELEASE_BRANCHES: production
-          DEFAULT_BUMP: major
+          DEFAULT_BUMP: minor
